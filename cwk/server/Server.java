@@ -1,6 +1,28 @@
-public class Server 
-{
-	public static void main( String[] args )
-	{
+import java.net.*;
+import java.io.*;
+import java.util.concurrent.*;
+
+public class Server {
+	public static void main( String[] args ) throws IOException {
+
+		ServerSocket server = null;
+		ExecutorService service = null;
+
+		// Listen on port 6969
+		try {
+			server = new ServerSocket(6969);
+		} catch ( IOException e ) {
+				System.err.println( "Could not listen on port 6969." );
+				System.exit(-1);
+		}
+
+		// Initialise the fixed size executor
+		service = Executors.newFixedThreadPool(30);
+
+		// For every new client we submit a new handler to the thread pool
+		while ( true ) {
+			Socket client = server.accept();  // Blocks until connection is made
+			service.submit( new ClientHandler(client) );
+		}
 	}
 }
