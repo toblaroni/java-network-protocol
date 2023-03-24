@@ -12,7 +12,7 @@ public class Server {
 		try {
 			server = new ServerSocket(6969);
 		} catch ( IOException e ) {
-				System.err.println( "Could not listen on port 6969." );
+				System.err.println( "Could not listen on port 6969. Port may be being used by another process." );
 				System.exit(-1);
 		}
 

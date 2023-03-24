@@ -11,8 +11,10 @@ public class Client {
 	private BufferedReader socketInput = null;
 
 	public void auction( String[] args ) {
-		for (int i = 0; i < args.length; ++i)
-			System.out.println(args[i]);
+		if ( args.length == 0 ) {
+			System.out.println( "Usage: java Client <args>" );
+			return;
+		}
 
 		try {
 
@@ -30,11 +32,13 @@ public class Client {
 			System.exit(1);
 		}
 
+		String request = String.join(" ", args);
+		System.out.println(request);
         String fromServer;
 		
 		try {
 			// Send args to the server
-			socketOutput.println(args);
+			socketOutput.println(request);
 
 			// Read from server
 			fromServer = socketInput.readLine();

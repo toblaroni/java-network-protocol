@@ -30,6 +30,11 @@ public class ClientHandler extends Thread {
             LocalTime time = java.time.LocalTime.now();  // ** FORMAT **
 
             System.out.println( date + " | " + time + " | " + inet );
+            
+            String inputLine, outputLine;
+            inputLine = in.readLine();
+            System.out.println(inputLine);
+            out.println("Suck your mother");
 
             // Free up resources
             out.close();
