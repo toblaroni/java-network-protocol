@@ -14,16 +14,17 @@ public class Client {
 		if ( args.length == 0 ) {
 			System.out.println( "Usage: java Client <args>" );
 			return;
+		} else if ( args.length > 3 ) {
+			System.out.println("Error: Too many arguements.\n Expected 'show' | 'item <string>' | 'bid <item> <value>'");
+			return;
 		}
 
 		try {
-
 			// Create the socket
 			socket = new Socket( "localhost", 6969 );
 
 			socketOutput = new PrintWriter( socket.getOutputStream(), true );
 			socketInput  = new BufferedReader( new InputStreamReader( socket.getInputStream() ));
-
 		} catch ( UnknownHostException e )  {
 			System.err.println("Could not connect to host on port 6969");
 			System.exit(1);
@@ -33,7 +34,6 @@ public class Client {
 		}
 
 		String request = String.join(" ", args);
-		System.out.println(request);
         String fromServer;
 		
 		try {
@@ -41,8 +41,9 @@ public class Client {
 			socketOutput.println(request);
 
 			// Read from server
-			fromServer = socketInput.readLine();
-			System.out.println(fromServer);
+			while ((fromServer = socketInput.readLine()) != null) {
+				System.out.println(fromServer);
+			}
 
 			// Free resources
 			socketOutput.close();

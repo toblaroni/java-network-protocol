@@ -1,5 +1,6 @@
 import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.concurrent.*;
 
 public class Server {
@@ -7,6 +8,7 @@ public class Server {
 
 		ServerSocket server = null;
 		ExecutorService service = null;
+		ArrayList<String[]> items = new ArrayList<String[]>();
 
 		// Listen on port 6969
 		try {
@@ -22,7 +24,7 @@ public class Server {
 		// For every new client we submit a new handler to the thread pool
 		while ( true ) {
 			Socket client = server.accept();  // Blocks until connection is made
-			service.submit( new ClientHandler(client) );
+			service.submit( new ClientHandler(client, items) );
 		}
 	}
 }
