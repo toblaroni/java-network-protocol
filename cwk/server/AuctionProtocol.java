@@ -1,28 +1,40 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
+/* Class that handles all the auctio logic.
+ * Contains functions for showing, adding and bidding items in the auction.
+ * The items are passed from the server to the client handler and to the protocol. */
 public class AuctionProtocol {
+
     // Array list of string arrays
     // Items will be stored as [item, bid, IP]
-    ArrayList<String[]> items = new ArrayList<String[]>();
-    private String request, IP;
-    private String[]reqArr;
+    private ArrayList<String[]> items = null;
+
+    private String request, IP = null;
+    private String[]reqArr     = null;
+
+    private StringBuilder retStr = null;
+
+    private String itemName = null;
+    private String bidItem  = null;
+    private float newBid    = 0;
+    private float oldBid    = 0;
 
     public AuctionProtocol( String request, String IP, ArrayList<String[]> items ) {
         this.request = request;
-        this.IP = IP;
-        this.reqArr = request.split(" ");
-        this.items = items;
+        this.IP      = IP;
+        this.reqArr  = request.split(" ");
+        this.items   = items;
 
     }
 
+    // Function for showing everything in the auction;
     private String show() {
 
         if ( items.isEmpty() ) 
             return "There are currently no items in this auction.";
         
-        StringBuilder retStr = new StringBuilder();
+        retStr = new StringBuilder();
 
         // Loop throught the items and add them to the stringbuilder
         for ( int i = 0; i < items.size(); ++i ) {
@@ -40,14 +52,15 @@ public class AuctionProtocol {
     }
 
     
+    // Function for adding an item to the auction
     private String addItem() {
         if ( reqArr.length != 2 ) 
             return "Error: Usage 'item <string>'";
 
-        String itemName = reqArr[1];
+        itemName = reqArr[1];
 
         // Check the item doesn't already exist
-        for ( String[] item : items ) {
+        for ( String[] item : items )
             if ( item[0].equals(itemName) ) 
                 return "Failure.";
             
@@ -60,13 +73,13 @@ public class AuctionProtocol {
     }
 
     
+    // A function for making a bid to the auction
     private String makeBid() {
         if ( reqArr.length != 3 )
             return "Error: Usage 'bid <item> <value>'";
         
         // Get the item to bid on
-        String bidItem = reqArr[1];
-        float newBid;
+        bidItem = reqArr[1];
 
         // Try and turn the value string into an int
         try {
@@ -80,7 +93,7 @@ public class AuctionProtocol {
             if ( !item[0].equals(bidItem) )
                 continue;
 
-            float oldBid = Float.parseFloat(item[1]);
+            oldBid = Float.parseFloat(item[1]);
 
             if ( oldBid >= newBid )
                 return "Rejected.";
@@ -96,6 +109,7 @@ public class AuctionProtocol {
     }
 
     
+    // Function that handles the request and decides what to do with it.
     public String processRequest() {
 
         // If the request is show call the show() function

@@ -9,6 +9,8 @@ public class Client {
 	private Socket socket = null;	
 	private PrintWriter socketOutput = null;
 	private BufferedReader socketInput = null;
+	private String request = null;
+	private String fromServer = null;
 
 	public void auction( String[] args ) {
 		if ( args.length == 0 ) {
@@ -33,8 +35,7 @@ public class Client {
 			System.exit(1);
 		}
 
-		String request = String.join(" ", args);
-        String fromServer;
+		request = String.join(" ", args);
 		
 		try {
 			// Send args to the server
