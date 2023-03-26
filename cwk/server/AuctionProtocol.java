@@ -19,9 +19,8 @@ public class AuctionProtocol {
 
     private String show() {
 
-        if ( items.size() == 0 ) {
+        if ( items.isEmpty() ) 
             return "There are currently no items in this auction.";
-        }
         
         StringBuilder retStr = new StringBuilder();
 
@@ -48,8 +47,8 @@ public class AuctionProtocol {
         String itemName = reqArr[1];
 
         // Check the item doesn't already exist
-        for ( int i = 0; i < items.size(); ++i ) 
-            if ( items.get(i)[0].equals(itemName) ) 
+        for ( String[] item : items ) {
+            if ( item[0].equals(itemName) ) 
                 return "Failure.";
             
 
@@ -83,13 +82,13 @@ public class AuctionProtocol {
 
             float oldBid = Float.parseFloat(item[1]);
 
-            if ( oldBid > newBid )
+            if ( oldBid >= newBid )
                 return "Rejected.";
 
             // Update the bid for the item and set the bidder
             item[1] = reqArr[2];
             item[2] = IP;
-            return "Accepted";
+            return "Accepted.";
         }
 
         return "Failure.";
@@ -111,7 +110,7 @@ public class AuctionProtocol {
         if ( reqArr[0].equalsIgnoreCase("bid") )
             return makeBid();
 
-        return "Failure";
+        return "Error: Invalid request.";
 
     }
 }

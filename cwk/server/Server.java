@@ -21,6 +21,8 @@ public class Server {
 		// Initialise the fixed size executor
 		service = Executors.newFixedThreadPool(30);
 
+		// ** Make protocol in this file so there's only one protocol? **
+
 		// For every new client we submit a new handler to the thread pool
 		while ( true ) {
 			Socket client = server.accept();  // Blocks until connection is made
