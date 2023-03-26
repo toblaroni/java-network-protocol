@@ -36,31 +36,64 @@ public class AuctionProtocol {
             retStr.append( "\n" );  // Bidder
         }
 
-        System.out.println(retStr);
         return retStr.toString(); // Return the stringbuilder as a string
 
     }
 
     
     private String addItem() {
-        if ( reqArr.length != 2 ) {
+        if ( reqArr.length != 2 ) 
             return "Error: Usage 'item <string>'";
-        }
 
         String itemName = reqArr[1];
 
         // Check the item doesn't already exist
-        for ( int i = 0; i < items.size(); ++i ) {
-            if ( items.get(i)[0].equals(itemName) ) {
-                return "Failure";
-            }
-        }
+        for ( int i = 0; i < items.size(); ++i ) 
+            if ( items.get(i)[0].equals(itemName) ) 
+                return "Failure.";
+            
 
         // Add the item to items
-        String[] item = { itemName, "0.0", IP };
+        String[] item = { itemName, "0.0", "<no bids>" };
         items.add( item ); 
 
-        return "Success";
+        return "Success.";
+    }
+
+    
+    private String makeBid() {
+        if ( reqArr.length != 3 )
+            return "Error: Usage 'bid <item> <value>'";
+        
+        // Get the item to bid on
+        String bidItem = reqArr[1];
+        float newBid;
+
+        // Try and turn the value string into an int
+        try {
+            newBid = Float.parseFloat(reqArr[2]);
+        } catch ( NumberFormatException e ) {
+            return "Error: Bad bid Usage 'bid <item> <value>'";    
+        }
+
+        // Update the bid
+        for ( String[] item : items ) {
+            if ( !item[0].equals(bidItem) )
+                continue;
+
+            float oldBid = Float.parseFloat(item[1]);
+
+            if ( oldBid > newBid )
+                return "Rejected.";
+
+            // Update the bid for the item and set the bidder
+            item[1] = reqArr[2];
+            item[2] = IP;
+            return "Accepted";
+        }
+
+        return "Failure.";
+
     }
 
     
@@ -75,6 +108,8 @@ public class AuctionProtocol {
             return addItem();
 
         // For bid <item> <value> we want to update the current bid and return accepted or rejected
+        if ( reqArr[0].equalsIgnoreCase("bid") )
+            return makeBid();
 
         return "Failure";
 
