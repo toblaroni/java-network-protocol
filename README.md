@@ -1,4 +1,4 @@
-# COMP2221 - Networks
+# COMP2221 - Networks
 ## Worksheets
 In COMP2221 worksheets I learnt clients and servers interact and how to create my own in Java. We also learnt how to use threads so the server can handle multiple clients at the same time.
 
@@ -23,7 +23,7 @@ Nothing else should be output to the log file.
 - Accept one of the following commands as command line arguments, and perform the stated task in confunction with the server:
   - `show` -> Displays a table containing all items in the auction, with columns for the item name, current bid, and the IP address of the client that made the bid, if at least one bid has been accepted.
   - `item <string>` -> Adds a new item to the auction with a bid price of zero, meaning no bid has been made.
-  - `bid <item> <value> -> Attempts to make a bid of <value> for the item <item>.
+  - `bid` <item> <value> -> Attempts to make a bid of <value> for the item <item>.
 - Quits after each command.
 
 The server should listen to a port number in the range 6000 to 6999. All code should adhere to the Java coding standards.
