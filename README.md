@@ -28,4 +28,4 @@ Nothing else should be output to the log file.
 
 The server should listen to a port number in the range 6000 to 6999. All code should adhere to the Java coding standards.
 
-The purpose of this coursework was to assess our grasp of networking in Java. For my implementation I received 29/30 marks.
+For my implementation I received 29/30 marks.
